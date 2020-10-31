@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using ZwajApp.API.Data;
 
 namespace ZwajApp.API.Controllers
 {
@@ -11,17 +13,26 @@ namespace ZwajApp.API.Controllers
     public class ValuesController : ControllerBase
     {
         // GET api/values
-        [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        private readonly DataContext _context;
+        public ValuesController(DataContext context)
         {
-            return new string[] { "value1", "value2" };
+            _context = context;
+
+        }
+
+        [HttpGet]
+        public  async Task<IActionResult> GetValue()
+        {
+            var Values=await _context.Values.ToListAsync();
+            return  Ok(Values);
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
+        public  async Task<IActionResult> GetValue(int id)
         {
-            return "value";
+             var Values=await _context.Values.FirstOrDefaultAsync(s=>s.id==id);
+            return  Ok(Values);
         }
 
         // POST api/values
