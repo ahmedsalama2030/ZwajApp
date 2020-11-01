@@ -1,3 +1,5 @@
+using System;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +24,7 @@ namespace ZwajApp.API.Controllers
             _repo = repo;
 
         }
+        
         [HttpPost("register")]
         public async Task<IActionResult> Register(UserForRegisterDto userForRegisterDto)
         {
@@ -51,8 +54,22 @@ namespace ZwajApp.API.Controllers
                new Claim(ClaimTypes.Name,userFromRepo.UserName)
            };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.GetSection("AppSettings:Token").Value));
 
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.GetSection("AppSettings:Token").Value));
+            var creds=new SigningCredentials(key,SecurityAlgorithms.HmacSha512);
+        
+              var tokenDescripror=new SecurityTokenDescriptor{
+                  Subject=new ClaimsIdentity(calims),
+                  Expires=DateTime.Now.AddDays(1),
+                  SigningCredentials=creds
+              };
+
+              var tokenHandler=new JwtSecurityTokenHandler();
+              var token=tokenHandler.CreateToken(tokenDescripror);
+        
+        return Ok(new {
+            token=tokenHandler.WriteToken(token)
+        });
         }
     }
 }
