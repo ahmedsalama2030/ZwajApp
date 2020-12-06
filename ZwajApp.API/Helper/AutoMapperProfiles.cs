@@ -23,6 +23,7 @@ namespace ZwajApp.API.Helper
             ;
             
             CreateMap<Photoer,PhotoForDetailsDTO>();
-        }
+             CreateMap<UserForRegisterDto,User>();
+         }
     }
 }

@@ -19,8 +19,8 @@ namespace ZwajApp.API.Data
             User user =await _db.Users.FirstOrDefaultAsync(x=>x.UserName==username);
             if(user==null) return null;
 
-            if(!VerifyPasswordHash(password,user.PasswordSalt,user.PasswordHash))
-            return null;
+            // if(!VerifyPasswordHash(password,user.PasswordSalt,user.PasswordHash))
+            // return null;
             return user;
          }
 
@@ -48,8 +48,8 @@ namespace ZwajApp.API.Data
            byte[] passwordHash,PasswordSalt;
 
              CreatePasswordHash(password,out passwordHash,out PasswordSalt );
-       user.PasswordSalt=PasswordSalt;
-       user.PasswordHash=passwordHash;
+    //    user.PasswordSalt=PasswordSalt;
+    //    user.PasswordHash=passwordHash;
         await _db.Users.AddAsync(user);
         await _db.SaveChangesAsync();
         return user;

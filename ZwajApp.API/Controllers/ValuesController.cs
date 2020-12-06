@@ -21,7 +21,7 @@ namespace ZwajApp.API.Controllers
             _context = context;
 
         }
-[AllowAnonymous]
+[Authorize(Roles="Admin")]
         [HttpGet]
         public  async Task<IActionResult> GetValue()
         {

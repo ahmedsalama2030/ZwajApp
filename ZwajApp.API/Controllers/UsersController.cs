@@ -8,8 +8,7 @@ using ZwajApp.API.Dtos;
 
 namespace ZwajApp.API.Controllers
 {
-    [Authorize]
-    [Route("api/[controller]")]
+     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
     {
@@ -32,7 +31,7 @@ namespace ZwajApp.API.Controllers
 
             return Ok(usersToReturn);
         }
-        [HttpGet("{id}")]
+           [HttpGet("{id}", Name = "GetUser")]
         public async Task<IActionResult> GetUser(int id)
         {
 

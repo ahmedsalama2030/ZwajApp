@@ -35,7 +35,7 @@ loggedOut(){
   localStorage.removeItem('token');
    this.alertify.message('تم الخروج') ;
  
-   this.router.navigate(['/home']);
+   this.router.navigate(['']);
  
 }
 
